@@ -13,7 +13,7 @@
             }
         },
         components: {
-            midiInputSelector: {
+            input: {
                 type: "flock.ui.midiConnector",
                 container: "{that}.dom.input",
                 options: {
@@ -31,7 +31,7 @@
                     }
                 }
             },
-            midiOutputSelector: {
+            output: {
                 type: "flock.ui.midiConnector",
                 container: "{that}.dom.output",
                 options: {

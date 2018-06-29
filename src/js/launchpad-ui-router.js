@@ -9,7 +9,7 @@
 
     lpg.router.ui.handleRawInput = function (that, midiMessage) {
         var payloadAsJson = flock.midi.read(midiMessage);
-        var destination = fluid.get(that, "midiOutputSelector.connection");
+        var destination = fluid.get(that, "output.connection");
         if (destination) {
             // On a NoteOff event, send a noteOn to the note in question with the right colour (velocity).
             if (payloadAsJson.type === "noteOff") {
@@ -25,7 +25,16 @@
         }
     };
 
-    // TODO: Send notes to the instrument once the output is connected so that we can "paint" it with the starting colours.
+    lpg.router.ui.paintColours = function (that) {
+        fluid.each(lpg.colours, function (velocity, note) {
+            var notePaintMesage = flock.midi.write({
+                type: "noteOn",
+                note: note,
+                velocity: velocity
+            });
+            that.sendRaw(notePaintMesage);
+        });
+    };
 
     fluid.defaults("lpg.router.ui", {
         gradeNames: ["lpg.router"],
@@ -33,6 +42,24 @@
             handleRawInput: {
                 funcName: "lpg.router.ui.handleRawInput",
                 args: ["{lpg.router}", "{arguments}.0.data"]
+            }
+        },
+        components: {
+            output: {
+                options: {
+                    components: {
+                        connection: {
+                            options: {
+                                listeners: {
+                                    "onReady.paintColours": {
+                                        funcName: "lpg.router.ui.paintColours",
+                                        args: ["{that}"]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     });
