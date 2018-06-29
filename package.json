@@ -1,0 +1,25 @@
+{
+    "name": "launchpad-guitar",
+    "version": "1.0.0",
+    "description": "Play a Novation Launchpad as though it were a guitar.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://bitbucket.org/duhrer/launchpad-guitar.git"
+    },
+    "author": "Tony Atkins <tony@raisingthefloor.org>",
+    "license": "BSD-3-Clause",
+    "homepage": "https://bitbucket.org/duhrer/launchpad-guitar#readme",
+    "dependencies": {
+        "flocking": "git://github.com/the-t-in-rtf/Flocking.git#b35335a3a22371264d849b3c711769416aa5b366",
+        "flocking-midi-router": "git://github.com/the-t-in-rtf/flocking-midi-router#618f2e8ae21cbbf146cb16cd94ba94f659a59692",
+        "infusion": "3.0.0-dev.20180122T170655Z.350441a9b"
+    },
+    "devDependencies": {
+        "grunt": "1.0.1",
+        "gpii-grunt-lint-all": "1.0.0-dev.20180629T081932Z.8a1f7fe"
+    }
+}
