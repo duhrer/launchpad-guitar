@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>Launchpad Guitar</title>
+    <script src="node_modules/infusion/dist/infusion-all.js"></script>
+    <script src="node_modules/flocking/dist/flocking-all.js"></script>
+    <script src="node_modules/flocking/src//ui/selectbox/js/selectbox.js"></script>
+    <script src="node_modules/flocking/src//ui/midi/midi-port-selector/js/midi-port-selector.js"></script>
+    <script src="node_modules/flocking/src//ui/midi/midi-connector/js/midi-connector.js"></script>
+    <script src="node_modules/flocking-midi-router/src/midi-router.js"></script>
+    <script src="node_modules/flocking-midi-router/src/ui/browser-router.js"></script>
+    <script src="src/js/launchpad-colours.js"></script>
+    <script src="src/js/launchpad-router.js"></script>
+    <script src="src/js/launchpad-ui-router.js"></script>
+    <!--<script src="src/js/launchpad-remapping-router.js"></script>-->
+</head>
+<body>
+    <h2>UI Router</h2>
+
+    <p>Connect your launchpad to this router to set up the user interface.</p>
+
+    <div class="ui-router">
+        <div class="midi-input"></div>
+        <div class="midi-output"></div>
+    </div>
+
+    <hr/>
+
+    <h2>Remapping Router</h2>
+
+    <p>Connect the input of the router to your launchpad, and the output to whatever you wish to play.</p>
+
+    <div class="remapping-router">
+        <div class="midi-input"></div>
+        <div class="midi-output"></div>
+    </div>
+
+    <script type="text/javascript">
+        var uiComponent = lpg.router.ui(".ui-router");
+    </script>
+</body>
+</html>
