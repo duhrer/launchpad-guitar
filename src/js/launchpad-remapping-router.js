@@ -1,8 +1,6 @@
 /* globals flock */
 (function (fluid, flock) {
     "use strict";
-    var environment = flock.init(); // eslint-disable-line no-unused-vars
-
     var lpg = fluid.registerNamespace("lpg");
 
     fluid.registerNamespace("lpg.router.remapping");

@@ -13,6 +13,9 @@
             }
         },
         components: {
+            enviro: {
+                type: "flock.enviro"
+            },
             input: {
                 type: "flock.ui.midiConnector",
                 container: "{that}.dom.input",
