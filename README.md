@@ -44,9 +44,8 @@ highest row.
 The "ui router" also changes the display when you play notes.  When you depress a note on any string, the note's colour
 will be cleared.  When you release that note, its colour will return.
 
-The two unused rows at the top of the unit are not lit when pressed or unpressed, but are still playable.  They are in
-essence a continuation of the pattern used by the first sixth strings, a seventh string that begins at A4 and an eighth
-that begins at D5.
+The two rows at the top of the unit are not found on a guitar, but continue the same progression from string to string.
+The seventh string that begins at A4 and the eighth that begins at D5.
 
 ## The "Remapping Router"
 
@@ -55,8 +54,8 @@ the one below it.  As there are only 9 notes per row, 5 notes are unplayable.  T
 sent by the launchpad so that each row is 5 steps higher than the one below it.  As a result, all notes in the range are
 playable, and the overall range is reduced by the overlap between strings.  The launchpad is also tuned from a very high
 E7 to a very low G minus 2.  A guitar is tuned from low to high, and its range is from E2 to E5.  The remapping router
-remaps notes so that the "strings" are arranged from low to high, and so that the range is from E2 to C5 (up to A5 if
-you use the unlit seventh and eight strings atop the unit).
+remaps notes so that the "strings" are arranged from low to high, and so that the range of its first six strings is from
+E2 to C5.  The range continues up to A5 if you use the seventh and eight rows beyond the traditional guitar strings.
 
 The net effect is intended to be as though you were holding the neck of a guitar with your left hand and looking down at
 it.  The lowest string is closest to you, and the highest string is furthest.  The method of playing is different, and
