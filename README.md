@@ -5,9 +5,8 @@
 ## Intro
 
 This package is designed to play a Novation Launchpad in a guitar-like fashion.  It consists of two MIDI routers.  The
-first, a "ui router" (see below) creates the user interface by feeding back note information to the Launchpad.  The
-second, a "remapping router" (see below) maps the notes used by the launchpad to an arrangement closer to the standard
-tuning of a guitar.
+first, a "ui router" (see below) creates the user interface by sending notes to the Launchpad.  The second, a "remapping
+router" (see below) maps the notes used by the launchpad to an arrangement closer to the standard tuning of a guitar.
 
 ## Requirements
 
@@ -17,7 +16,8 @@ tuning of a guitar.
 4. A Novation Launchpad, configured to use the X-Y note layout (this package is only tested with the original Launchpad,
    and not a MK2).
 5. Something that actually plays sounds, that can receive MIDI messages, and which shows up as a MIDI instrument.  For
-   example, this package has been tested with Mainstage, Fluidsynth, and with a JV-1010 connected using a Roland UM-ONE.
+   example, this package has been tested with software packages like Mainstage and Fluidsynth, and with hardware
+   synthesizers like a Roland JV-1010.
 
 ## Usage Instructions.
 
@@ -44,7 +44,7 @@ The "ui router" also changes the display when you play notes.  When you depress 
 will be cleared.  When you release a note, its colour will return.
 
 The two rows at the top of the unit are not found on a guitar, but continue the same progression from string to string.
-The seventh string that begins at A4 and the eighth that begins at D5.
+The seventh string begins at A4 and the eighth begins at D5.
 
 ## The "Remapping Router"
 
