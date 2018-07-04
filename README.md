@@ -62,6 +62,10 @@ it.  The lowest string is closest to you, and the highest string is furthest.  T
 the range on each string is reduced, but you can still use chords and tablature written for a guitar more easily than
 with a piano-like instrument.
 
+## Demo Video
+
+You can see [a demonstration of the first version of the Launchpad Guitar on YouTube](https://www.youtube.com/watch?v=OHrn9nKGp8Y).
+
 ## Credits
 
 This software is written in Javascript using [Flocking](http://flockingjs.org).
