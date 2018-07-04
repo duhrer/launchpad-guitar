@@ -31,18 +31,17 @@ Once you have all the requirements:
 
 The UI presented by this package looks roughly as follows.
 
-![Illustration of the UI](./images/launchpad-colors.png)
+![Illustration of the UI](./images/launchpad-colours.png)
 
 Each of the bottom six rows (including right hand circular buttons) corresponds to a string on a standard tuned guitar.
 The first note in each row is the "open" tuning of that "string".  The second note is what would be the first fret on
 that string.  So, the bottom row is the low E string.  The first note plays E2.  The second note plays F2.
 
-The colour-coding used by this package highlights the unique note ranges.  So, since the strings on a guitar are offset
-by five notes, the sixth through ninth notes of the first row share a color with the first five notes of the next
-highest row.
+The colour-coding used by this package highlights the unique note ranges.  So, for example, since the first four notes
+of the A string can also be played on the low E string, those notes are the same colour.
 
 The "ui router" also changes the display when you play notes.  When you depress a note on any string, the note's colour
-will be cleared.  When you release that note, its colour will return.
+will be cleared.  When you release a note, its colour will return.
 
 The two rows at the top of the unit are not found on a guitar, but continue the same progression from string to string.
 The seventh string that begins at A4 and the eighth that begins at D5.
