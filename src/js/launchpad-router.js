@@ -4,7 +4,7 @@
     fluid.registerNamespace("lpg.router");
 
     lpg.router.handleMessage = function (that, midiMessage) {
-        if (["noteOn", "noteOff"].indexOf(fluid.get(midiMessage, "type")) === -1) {
+        if (that.options.messagesNotToPassThrough.indexOf(fluid.get(midiMessage, "type")) === -1) {
             var destination = fluid.get(that, "output.connection");
             if (destination) {
                 destination.send(midiMessage);
@@ -14,6 +14,7 @@
 
     fluid.defaults("lpg.router", {
         gradeNames: ["fluid.viewComponent"],
+        messagesNotToPassThrough: ["noteOn", "noteOff"],
         selectors: {
             input:  ".midi-input",
             output: ".midi-output"

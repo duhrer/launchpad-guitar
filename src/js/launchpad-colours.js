@@ -1,7 +1,8 @@
 (function (fluid) {
     "use strict";
     var lpg = fluid.registerNamespace("lpg");
-    lpg.colours = {
+    fluid.registerNamespace("lpg.colours");
+    lpg.colours.velocityByNote = {
         // Start "high D" string
         0: 63,
         1: 63,
@@ -82,5 +83,14 @@
         118: 58,
         119: 58,
         120: 58
+    };
+
+    lpg.colours.htmlColourByVelocity = {
+        12: "white",
+        15: "#c71a1a",
+        29: "#716631",
+        58: "#d9cf3a",
+        60: "#32c045",
+        63: "#dfb379"
     };
 })(fluid);
