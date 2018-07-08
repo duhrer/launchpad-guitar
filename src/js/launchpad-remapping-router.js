@@ -10,7 +10,7 @@
             var note = fluid.get(midiMessage, "note");
             var offset = fluid.get(lpg.offsets, note);
             if (note !== undefined && offset !== undefined) {
-                var offsetMidiMessage = fluid.merge({}, midiMessage, { note: note + offset });
+                var offsetMidiMessage = fluid.merge({}, midiMessage, { note: note + offset + (12 * that.model.octaveOffset)});
                 destination.send(offsetMidiMessage);
             }
             else {
@@ -21,6 +21,9 @@
 
     fluid.defaults("lpg.router.remapping", {
         gradeNames: ["lpg.router"],
+        model: {
+            octaveOffset: 0
+        },
         invokers: {
             handleNote: {
                 funcName: "lpg.router.remapping.handleNote",

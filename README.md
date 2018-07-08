@@ -51,10 +51,23 @@ The seventh string begins at A4 and the eighth begins at D5.
 The X-Y layout of the Novation Launchpad is designed to play a huge range of notes.  Each row is 15 steps higher than
 the one below it.  As there are only 9 notes per row, 5 notes are unplayable.  The remapping router remaps the notes
 sent by the launchpad so that each row is 5 steps higher than the one below it.  As a result, all notes in the range are
-playable, and the overall range is reduced by the overlap between strings.  The launchpad is also tuned from a very high
-E7 to a very low G minus 2.  A guitar is tuned from low to high, and its range is from E2 to E5.  The remapping router
-remaps notes so that the "strings" are arranged from low to high, and so that the range of its first six strings is from
-E2 to C5.  The range continues up to A5 if you use the seventh and eight rows beyond the traditional guitar strings.
+playable, and the overall range is reduced by the overlap between strings.
+
+The Launchpad is also tuned from a very high  E7 to a very low G minus 2.  A guitar is tuned from low to high, and its
+range is from E2 (open note, lowest string) to E5 (12th fret, highest string).  The remapping router remaps notes so
+that the "strings" are arranged from low to high, and so that the range of its first six strings is from E2 to C5.  The
+default range continues up to A#5 if you use the seventh and eight rows beyond the traditional guitar strings.
+
+The "up" and "down" controls at the top of the Launchpad can also be used to shift up and down by an octave, to a
+maximum of 2 octaves lower than the default, or 2 octaves higher than the default. When notes are shifted up one octave,
+the up arrow will be highlighted in yellow.  When notes are shifted up two octaves, the up arrow will be highlighted in
+red.  When notes are shifted up down octave, the down arrow will be highlighted in yellow.  When notes are shifted
+downtwo octaves, the down arrow will be highlighted in red.  When neither the up or down arrows are highlighted, the
+instrument plays in the default range. With these controls, the overall range goes from E0 to A#7
+
+TODO: Check guitar tuning online
+
+## So, what is the point of this thing?
 
 The net effect is intended to be as though you were holding the neck of a guitar with your left hand and looking down at
 it.  The lowest string is closest to you, and the highest string is furthest.  The method of playing is different, and

@@ -19,6 +19,9 @@
             var htmlColour = lpg.colours.htmlColourByVelocity[velocity];
             that.paintItem("note", note, htmlColour);
         });
+
+        // Paint the control keys so we can actually click them.
+
     };
 
     lpg.svgUi.handleNote = function (that, midiMessage) {
@@ -36,32 +39,84 @@
 
     lpg.svgUi.handleControl = function (that, midiMessage) {
         if (midiMessage.value === 0) {
-            that.paintItem("cc", midiMessage.number, "none");
+            if (midiMessage.number > 105) {
+                that.paintItem("cc", midiMessage.number, "#cccccc00");
+            }
         }
         else {
-            that.paintItem("cc", midiMessage.number, "white");
+            switch (midiMessage.number) {
+            // 104: up
+            case 104:
+                if (that.model.octaveOffset < that.options.maxOctaveOffset) {
+                    that.applier.change("octaveOffset", that.model.octaveOffset + 1);
+                }
+                break;
+            // 105: down
+            case 105:
+                if (that.model.octaveOffset > that.options.minOctaveOffset) {
+                    that.applier.change("octaveOffset", that.model.octaveOffset - 1);
+                }
+                break;
+            default:
+                that.paintItem("cc", midiMessage.number, "#ffffff66");
+            }
         }
     };
 
-    lpg.svgUi.handleMouseEvent = function (that, type, event) {
+    // Red = 2 in a given direction
+    // Yellow = 1 in a given direction
+    // "none" = not modified in a given direction.
+    lpg.svgUi.paintOctaveControls = function (that) {
+        var upColour = "#cccccc00";
+        var downColour = "#cccccc00";
+
+        if (that.model.octaveOffset > 0) {
+            upColour = that.model.octaveOffset === 1 ? "#ffffcc99" : "#ff000066";
+        }
+        else if (that.model.octaveOffset < 0) {
+            downColour = that.model.octaveOffset === -1 ? "#ffffcc99" : "#ff000066";
+        }
+
+        that.paintItem("cc", 104, upColour);
+        that.paintItem("cc", 105, downColour);
+    };
+
+    lpg.svgUi.handleMouseEvent = function (that, buttonType, mouseEventType, event) {
         event.preventDefault();
         var targetId = event.target.id;
-        // Skip the length of "launchpad-note-", i.e. 15 characters
-        var note = parseInt(targetId.substring(15), 10);
 
-        // Paint the UI for this note.
-        var colourForNote = fluid.get(lpg.colours.velocityByNote, note) || 12;
-        var htmlColour = lpg.colours.htmlColourByVelocity[colourForNote];
-        var colour = type === "down" ? "white" : htmlColour;
-        that.paintItem("note", note, colour);
+        if (buttonType === "note") {
+            // Skip the length of "launchpad-note-", i.e. 15 characters
+            var note = parseInt(targetId.substring(15), 10);
 
-        var noteOptions = {
-            type: "noteOn",
-            note: note,
-            velocity: type === "down" ? 127 : 0
-        };
-        // TODO: Pass on an event we can use to send notes.
-        that.events.note.fire(noteOptions);
+            // Paint the UI for this note.
+            var colourForNote = fluid.get(lpg.colours.velocityByNote, note) || 12;
+            var htmlColour = lpg.colours.htmlColourByVelocity[colourForNote];
+            var colour = mouseEventType === "down" ? "white" : htmlColour;
+            that.paintItem("note", note, colour);
+
+            var noteOptions = {
+                type: "noteOn",
+                note: note,
+                velocity: mouseEventType === "down" ? 127 : 0
+            };
+            // TODO: Pass on an event we can use to send notes.
+            that.events.note.fire(noteOptions);
+        }
+        else if (buttonType === "cc") {
+            // Skip the length of "launchpad-cc-", i.e. 13 characters
+            var ccNumber = parseInt(targetId.substring(13), 10);
+
+            // 104: up
+            if (ccNumber === 104 && that.model.octaveOffset < that.options.maxOctaveOffset) {
+                that.applier.change("octaveOffset", that.model.octaveOffset + 1);
+            }
+            // 105: down
+            else if (ccNumber === 105 && that.model.octaveOffset > that.options.minOctaveOffset) {
+                that.applier.change("octaveOffset", that.model.octaveOffset - 1);
+            }
+            console.log("not implemented.");
+        }
     };
 
     fluid.defaults("lpg.svgUi", {
@@ -70,6 +125,8 @@
         events: {
             note: null
         },
+        maxOctaveOffset: 2,
+        minOctaveOffset: -2,
         selectors: {
             cc104:   "#launchpad-cc-104",
             cc105:   "#launchpad-cc-105",
@@ -79,6 +136,7 @@
             cc109:   "#launchpad-cc-109",
             cc110:   "#launchpad-cc-110",
             cc111:   "#launchpad-cc-111",
+            control: ".launchpad-control",
             frame:   "#launchpad-frame",
             note:    ".launchpad-note",
             note0:   "#launchpad-note-0",
@@ -155,13 +213,17 @@
             note120: "#launchpad-note-120"
         },
         invokers: {
-            "handleMouseDown": {
+            "handleControlMouseDown": {
                 funcName: "lpg.svgUi.handleMouseEvent",
-                args:     ["{that}", "down", "{arguments}.0"]
+                args:     ["{that}", "cc", "down", "{arguments}.0"]
             },
-            "handleMouseUp": {
+            "handleNoteMouseDown": {
                 funcName: "lpg.svgUi.handleMouseEvent",
-                args:     ["{that}", "up", "{arguments}.0"]
+                args:     ["{that}", "note", "down", "{arguments}.0"]
+            },
+            "handleNoteMouseUp": {
+                funcName: "lpg.svgUi.handleMouseEvent",
+                args:     ["{that}", "note", "up", "{arguments}.0"]
             },
             "paintItem": {
                 funcName: "lpg.svgUi.paintItem",
@@ -173,15 +235,27 @@
                 funcName: "lpg.svgUi.paintSvg",
                 args: ["{that}"]
             },
-            "onCreate.bindMouseDown": {
+            "onCreate.bindNoteMouseDown": {
                 "this": "{that}.dom.note",
                 "method": "mousedown",
-                "args": ["{that}.handleMouseDown"]
+                "args": ["{that}.handleNoteMouseDown"]
             },
-            "onCreate.bindMouseUp": {
+            "onCreate.bindNoteMouseUp": {
                 "this": "{that}.dom.note",
                 "method": "mouseup",
-                "args": ["{that}.handleMouseUp"]
+                "args": ["{that}.handleNoteMouseUp"]
+            },
+            "onCreate.bindControlMouseDown": {
+                "this": "{that}.dom.control",
+                "method": "mousedown",
+                "args": ["{that}.handleControlMouseDown"]
+            }
+        },
+        modelListeners: {
+            octaveOffset: {
+                excludeSource: "init",
+                funcName:      "lpg.svgUi.paintOctaveControls",
+                args:          ["{that}"]
             }
         }
     });
@@ -204,6 +278,26 @@
             }
         }
     };
+
+    lpg.router.ui.paintOctaveControls = function (that) {
+        var destination = fluid.get(that, "output.connection");
+        if (destination) {
+            var upColour   = 0;
+            var downColour = 0;
+
+            // 58: yellow, 15: red
+            if (that.model.octaveOffset > 0) {
+                upColour = that.model.octaveOffset === 1 ? 58 : 15;
+            }
+            else if (that.model.octaveOffset < 0) {
+                downColour = that.model.octaveOffset === -1 ? 58 : 15;
+            }
+
+            destination.send({ type: "control", channel: 0, number: 104, value: upColour});
+            destination.send({ type: "control", channel: 0, number: 105, value: downColour});
+        }
+    };
+
 
     lpg.router.ui.paintDevice = function (connection) {
         // TODO: Request the device information up front and only paint if it's a launchpad.
@@ -239,11 +333,17 @@
                 args: ["{lpg.router}", "{arguments}.0"]
             }
         },
+        model: {
+            octaveOffset: 0
+        },
         components: {
             svg: {
                 type: "lpg.svgUi",
                 container: ".launchpad-svg-ui",
                 options: {
+                    model: {
+                        octaveOffset: "{lpg.router.ui}.model.octaveOffset"
+                    },
                     listeners: {
                         "note.forwardNote": {
                             funcName: "lpg.router.ui.forwardNote",
@@ -287,6 +387,13 @@
                         }
                     }
                 }
+            }
+        },
+        modelListeners: {
+            octaveOffset: {
+                excludeSource: "init",
+                funcName:      "lpg.router.ui.paintOctaveControls",
+                args:          ["{that}"]
             }
         }
     });
