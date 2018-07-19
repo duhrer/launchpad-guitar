@@ -298,21 +298,46 @@
         }
     };
 
-
     lpg.router.ui.paintDevice = function (connection) {
         // TODO: Request the device information up front and only paint if it's a launchpad.
+
         /*
-            TODO: Configure the launchpad to force x-y layout.
-            Select the grid mapping mode
-            Hex version B0h, 00h, 01-02h.
-            Decimal version 176, 0, 1-2.
-            This command affects the mapping of Launchpad buttons to MIDI key codes for messages in both
-            directions. There are two possible mappings, selectable with the last byte of this message:
-             Mapping Meaning
-             1 X-Y layout (the default).
-             2 Drum rack layout.
+            There are a few control commands that you can send on channel 0 with a "number" of zero.  For example,
+            Here's the command to update the display buffer.  The bits of the "value" are used to control a range of
+            parameters:
+
+            0. always 0
+            1. always 1
+            2. 0=don't copy from buffer to buffer, 1=do copy
+            3. 0=don't flash between buffers, 1=flash between buffers,
+            4. 0=write to buffer 0, 1=write to buffer 1
+            5. always 0
+            6. 0=display buffer 0, 1=display buffer 1
+
+            So, writing to buffer 0 and displaying to buffer 0 with all other flags off equates to 0100000, or 0x20.
+
+            Writing to buffer 0 and displaying buffer 1 with all other flags off equates to 0100000, or 0x21.
+
+            See the Launchpad Manual for more details.
 
          */
+
+
+        // X-Y Layout
+        connection.send({
+            type: "control",
+            channel: 0,
+            number: 0x00,
+            value: 1
+        });
+
+        // Write to buffer 0, display buffer 1.
+        connection.send({
+            type: "control",
+            channel: 0,
+            number: 0x00,
+            value: 0x21
+        });
 
         // Paint the note buttons
         fluid.each(lpg.colours.velocityByNote, function (velocity, note) {
@@ -322,6 +347,15 @@
                 velocity: velocity
             });
         });
+
+        // Display buffer 0.
+        connection.send({
+            type: "control",
+            channel: 0,
+            number: 0x00,
+            value: 0x20
+        });
+
     };
 
     fluid.defaults("lpg.router.ui", {
@@ -357,6 +391,8 @@
                     components: {
                         connection: {
                             options: {
+                                ports: { name: "Launchpad" },
+                                //sysex: true,
                                 listeners: {
                                     "note.paintSvg": {
                                         funcName: "lpg.svgUi.handleNote",
@@ -377,10 +413,12 @@
                     components: {
                         connection: {
                             options: {
+                                ports: { name: "Launchpad" },
+                                //sysex: true,
                                 listeners: {
-                                    "onReady.paintColours": {
+                                    "onReady.paintDevice": {
                                         funcName: "lpg.router.ui.paintDevice",
-                                        args: ["{that}"]
+                                        args:     ["{that}"]
                                     }
                                 }
                             }
