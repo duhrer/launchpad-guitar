@@ -19,10 +19,29 @@
         }
     };
 
+    lpg.router.remapping.muteNotes = function (that) {
+        var destination = fluid.get(that, "output.connection");
+        if (destination) {
+            destination.send({
+                type:    "control",
+                channel: 0,
+                number:  123,
+                value:   0
+            });
+        }
+    };
+
     fluid.defaults("lpg.router.remapping", {
         gradeNames: ["lpg.router"],
         model: {
             octaveOffset: 0
+        },
+        modelListeners: {
+            octaveOffset: {
+                excludeSource: "init",
+                funcName:      "lpg.router.remapping.muteNotes",
+                args:          ["{that}"]
+            }
         },
         invokers: {
             handleNote: {
