@@ -1,6 +1,9 @@
 (function (fluid) {
     "use strict";
     var lpg = fluid.registerNamespace("lpg");
+    // Pitch offsets to adjust the default "drum" tuning of the launchpad to guitar tunings.
+    // The keys are the pitch of the button on the launchpad, the values are the offset from the note the launchpad
+    // sends to the desired velocity.
     lpg.offsets = {
         // Start "high D" string
         0: 74,

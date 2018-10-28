@@ -14,7 +14,8 @@
     fluid.defaults("lpg.harness", {
         gradeNames: ["fluid.viewComponent"],
         model: {
-            octaveOffset: 0
+            octaveOffset: 0,
+            capoOffset:   0
         },
         components: {
             ui: {
@@ -22,7 +23,8 @@
                 container: ".ui-router",
                 options: {
                     model: {
-                        octaveOffset: "{lpg.harness}.model.octaveOffset"
+                        octaveOffset: "{lpg.harness}.model.octaveOffset",
+                        capoOffset: "{lpg.harness}.model.capoOffset"
                     },
                     components: {
                         svg: {
@@ -43,7 +45,8 @@
                 container: ".remapping-router",
                 options: {
                     model: {
-                        octaveOffset: "{lpg.harness}.model.octaveOffset"
+                        octaveOffset: "{lpg.harness}.model.octaveOffset",
+                        capoOffset: "{lpg.harness}.model.capoOffset"
                     }
                 }
             }

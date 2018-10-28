@@ -45,20 +45,40 @@
         }
         else {
             switch (midiMessage.number) {
-            // 104: up
-            case 104:
-                if (that.model.octaveOffset < that.options.maxOctaveOffset) {
-                    that.applier.change("octaveOffset", that.model.octaveOffset + 1);
-                }
-                break;
-            // 105: down
-            case 105:
-                if (that.model.octaveOffset > that.options.minOctaveOffset) {
-                    that.applier.change("octaveOffset", that.model.octaveOffset - 1);
-                }
-                break;
-            default:
-                that.paintItem("cc", midiMessage.number, "#ffffff66");
+                // 104: up
+                case 104:
+                    if (that.model.octaveOffset < that.options.maxOctaveOffset) {
+                        that.applier.change("octaveOffset", that.model.octaveOffset + 1);
+                    }
+                    break;
+                // 105: down
+                case 105:
+                    if (that.model.octaveOffset > that.options.minOctaveOffset) {
+                        that.applier.change("octaveOffset", that.model.octaveOffset - 1);
+                    }
+                    break;
+                // 106: left
+                case 106:
+                    if (that.model.capoOffset > that.options.minCapoOffset) {
+                        that.applier.change("capoOffset", that.model.capoOffset - 1);
+                    }
+                    else if (that.model.octaveOffset > that.options.minOctaveOffset) {
+                        that.applier.change("capoOffset", 0);
+                        that.applier.change("octaveOffset", that.model.octaveOffset - 1);
+                    }
+                    break;
+                // 107: right
+                case 107:
+                    if (that.model.capoOffset < that.options.maxCapoOffset) {
+                        that.applier.change("capoOffset", that.model.capoOffset + 1);
+                    }
+                    else if (that.model.octaveOffset < that.options.maxOctaveOffset) {
+                        that.applier.change("capoOffset", 0);
+                        that.applier.change("octaveOffset", that.model.octaveOffset + 1);
+                    }
+                    break;
+                default:
+                    that.paintItem("cc", midiMessage.number, "#ffffff66");
             }
         }
     };
@@ -107,15 +127,34 @@
             // Skip the length of "launchpad-cc-", i.e. 13 characters
             var ccNumber = parseInt(targetId.substring(13), 10);
 
-            // 104: up
-            if (ccNumber === 104 && that.model.octaveOffset < that.options.maxOctaveOffset) {
-                that.applier.change("octaveOffset", that.model.octaveOffset + 1);
+            switch (ccNumber) {
+                // 104: up
+                case 104:
+                    if (that.model.octaveOffset < that.options.maxOctaveOffset) {
+                        that.applier.change("octaveOffset", that.model.octaveOffset + 1);
+                    }
+                    break;
+                // 105: down
+                case 105:
+                    if (that.model.octaveOffset > that.options.minOctaveOffset) {
+                        that.applier.change("octaveOffset", that.model.octaveOffset - 1);
+                    }
+                    break;
+                // 106: left
+                case 106:
+                    if (that.model.capoOffset > that.options.minCapoOffset) {
+                        that.applier.change("capoOffset", that.model.capoOffset - 1);
+                    }
+                    break;
+                // 107: right
+                case 107:
+                    if (that.model.capoOffset < that.options.maxCapoOffset) {
+                        that.applier.change("capoOffset", that.model.capoOffset + 1);
+                    }
+                    break;
+                default:
+                    console.log("not implemented.");
             }
-            // 105: down
-            else if (ccNumber === 105 && that.model.octaveOffset > that.options.minOctaveOffset) {
-                that.applier.change("octaveOffset", that.model.octaveOffset - 1);
-            }
-            console.log("not implemented.");
         }
     };
 
@@ -127,6 +166,9 @@
         },
         maxOctaveOffset: 2,
         minOctaveOffset: -2,
+        // The "virtual capo" is only mean for adjustments of less than an octave.
+        minCapoOffset: -11,
+        maxCapoOffset: 11,
         selectors: {
             cc104: "#launchpad-cc-104",
             cc105: "#launchpad-cc-105",
@@ -368,7 +410,8 @@
             }
         },
         model: {
-            octaveOffset: 0
+            octaveOffset: 0,
+            capoOffset: 0
         },
         components: {
             svg: {
@@ -376,7 +419,8 @@
                 container: ".launchpad-svg-ui",
                 options: {
                     model: {
-                        octaveOffset: "{lpg.router.ui}.model.octaveOffset"
+                        octaveOffset: "{lpg.router.ui}.model.octaveOffset",
+                        capoOffset: "{lpg.router.ui}.model.capoOffset"
                     },
                     listeners: {
                         "note.forwardNote": {
