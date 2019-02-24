@@ -116,6 +116,7 @@
             that.paintItem("note", note, colour);
 
             var noteOptions = {
+                channel: 0,
                 type: "noteOn",
                 note: note,
                 velocity: mouseEventType === "down" ? 127 : 0
@@ -385,7 +386,8 @@
         fluid.each(lpg.colours.velocityByNote, function (velocity, note) {
             connection.send({
                 type: "noteOn",
-                note: note,
+                channel: 0,
+                note: parseInt(note, 10),
                 velocity: velocity
             });
         });
@@ -433,6 +435,13 @@
             input: {
                 options: {
                     components: {
+                        midiPortSelector: {
+                            options: {
+                                strings: {
+                                    selectBoxLabel: "UI Input"
+                                }
+                            }
+                        },
                         connection: {
                             options: {
                                 listeners: {
@@ -452,7 +461,15 @@
             },
             output: {
                 options: {
+                    preferredDevice: "Launchpad",
                     components: {
+                        midiPortSelector: {
+                            options: {
+                                strings: {
+                                    selectBoxLabel: "UI Output"
+                                }
+                            }
+                        },
                         connection: {
                             options: {
                                 listeners: {

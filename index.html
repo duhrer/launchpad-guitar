@@ -3,11 +3,15 @@
     <title>Launchpad Guitar</title>
     <script src="node_modules/infusion/dist/infusion-all.js"></script>
     <script src="node_modules/flocking/dist/flocking-all.js"></script>
-    <script src="node_modules/flocking/src//ui/selectbox/js/selectbox.js"></script>
-    <script src="node_modules/flocking/src//ui/midi/midi-port-selector/js/midi-port-selector.js"></script>
-    <script src="node_modules/flocking/src//ui/midi/midi-connector/js/midi-connector.js"></script>
-    <script src="node_modules/flocking-midi-router/src/midi-router.js"></script>
-    <script src="node_modules/flocking-midi-router/src/ui/browser-router.js"></script>
+
+    <script src="node_modules/flocking/src/ui/selectbox/js/selectbox.js"></script>
+    <script src="node_modules/flocking/src/ui/midi/midi-port-selector/js/midi-port-selector.js"></script>
+    <script src="node_modules/flocking/src/ui/midi/midi-connector/js/midi-connector.js"></script>
+    <script src="node_modules/flocking-midi-select-ng/src/js/auto-midi-system.js"></script>
+    <script src="node_modules/flocking-midi-select-ng/src/js/select-box.js"></script>
+    <script src="node_modules/flocking-midi-select-ng/src/js/auto-midi-port-selector.js"></script>
+    <script src="node_modules/flocking-midi-select-ng/src/js/auto-midi-connector.js"></script>
+
     <script src="src/js/launchpad-colours.js"></script>
     <script src="src/js/launchpad-router.js"></script>
     <script src="src/js/launchpad-ui-router.js"></script>
@@ -16,7 +20,7 @@
     <script src="src/js/harness.js"></script>
 </head>
 <body>
-    <h2>UI Router</h2>
+    <h2 align="center">Launchpad Guitar</h2>
 
     <hr/>
 
@@ -1058,20 +1062,22 @@
 
     <hr/>
 
-    <p>Connect your launchpad to this router to set up the user interface.</p>
+    <h4>Remapping Router</h4>
 
-    <div class="ui-router">
-        <div class="midi-input"></div>
+    <p>Connect the output below to whatever you wish to play.</p>
+
+    <div class="remapping-router">
         <div class="midi-output"></div>
+        <div class="midi-input"></div>
     </div>
 
     <hr/>
 
-    <h2>Remapping Router</h2>
+    <h4>Device Router</h4>
 
-    <p>Connect the input of the router to your launchpad, and the output to whatever you wish to play.</p>
+    <p>Connect the input and output to your Launchpad.</p>
 
-    <div class="remapping-router">
+    <div class="ui-router">
         <div class="midi-input"></div>
         <div class="midi-output"></div>
     </div>

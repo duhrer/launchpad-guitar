@@ -34,11 +34,19 @@
                 type: "flock.enviro"
             },
             input: {
-                type: "flock.ui.midiConnector",
+                type: "flock.auto.ui.midiConnector",
                 container: "{that}.dom.input",
                 options: {
+                    preferredDevice: "Launchpad",
                     portType: "input",
                     components: {
+                        midiPortSelector: {
+                            options: {
+                                strings: {
+                                    selectBoxLabel: "Device Input"
+                                }
+                            }
+                        },
                         connection: {
                             options: {
                                 listeners: {
@@ -55,10 +63,19 @@
                 }
             },
             output: {
-                type: "flock.ui.midiConnector",
+                type: "flock.auto.ui.midiConnector",
                 container: "{that}.dom.output",
                 options: {
-                    portType: "output"
+                    portType: "output",
+                    components: {
+                        midiPortSelector: {
+                            options: {
+                                strings: {
+                                    selectBoxLabel: "Device Output"
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
